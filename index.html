@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixture ACIADEP – Generador CSV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#0c1118; --panel:#0f1623; --muted:#93a0b4; --text:#e7edf6; --accent:#53a8ff;
+      --border:#1d293a; --card:#0f1826; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:linear-gradient(180deg,#0b1020 0%,#0d1220 100%);
+      font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+      color:var(--text);
+    }
+    header{
+      position:sticky;top:0;z-index:5;background:rgba(12,17,24,.6);backdrop-filter:saturate(140%) blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:18px 20px}
+    .title{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .badge{font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px}
+    .panel .hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .panel .bd{padding:16px}
+    .controls{display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));gap:12px}
+    .controls label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
+    input, select, button{
+      background:#0b1524;border:1px solid var(--border);color:var(--text);
+      border-radius:10px;padding:10px 12px;outline:none;transition:.2s;
+    }
+    input:focus,select:focus{border-color:#2a79ff;box-shadow:0 0 0 3px rgba(83,168,255,.15)}
+    .btn{background:#11213a;border:1px solid #1b3966;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600}
+    .btn:hover{background:#0f203d}
+    .btn.primary{background:linear-gradient(180deg,#2468ff,#1b56d8); border:0}
+    .btn.primary:hover{filter:brightness(1.05)}
+    .btn.ghost{background:transparent;border:1px dashed var(--border);color:var(--muted)}
+    .hint{font-size:12px;color:var(--muted)}
+    .sep{height:1px;background:var(--border);margin:12px 0}
+    table{width:100%;border-collapse:separate;border-spacing:0 10px}
+    th,td{padding:8px}
+    th{font-size:12px;color:var(--muted);text-align:left}
+    tr.row{
+      background:var(--card);border:1px solid var(--border);border-radius:12px;
+      box-shadow:0 6px 18px rgba(0,0,0,.25);
+    }
+    tr.row td:first-child{border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tr.row td:last-child{border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .pill{font-size:12px;padding:6px 10px;border-radius:999px;background:#0b1524;border:1px solid var(--border);color:var(--muted)}
+    .stack{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .right{display:flex;gap:10px;align-items:center}
+    .kpi{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+    .kpi b{color:var(--text)}
+    .sticky-footer{
+      position:sticky;bottom:0;background:rgba(12,17,24,.7);backdrop-filter:blur(8px);
+      border-top:1px solid var(--border)
+    }
+    .sticky-footer .wrap{padding:12px 16px} /* padding lateral extra */
+    .warn{
+      background:#1d2b43;border:1px dashed #2c4b85;color:#cfe0ff;padding:8px 10px;border-radius:10px;font-size:12px
+    }
+    @media (max-width:1080px){
+      .controls{grid-template-columns:repeat(2, minmax(120px,1fr))}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap title">
+      <div class="stack">
+        <h2 style="margin:0">Generador de Fixture ACIADEP</h2>
+        <div class="badges">
+          <span class="badge">CSV compatible · “Fecha N”</span>
+          <span class="badge">Solo dropdowns</span>
+          <span class="badge">Auto-guardado</span>
+        </div>
+      </div>
+      <div class="right">
+        <input type="file" id="fileJson" accept="application/json" style="display:none">
+        <button class="btn" id="btnLoadFile">Cargar JSON</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="hd">
+        <div class="stack">
+          <strong>Constructor</strong>
+          <span class="pill" id="summaryKpi">0 partidos</span>
+        </div>
+        <div class="right">
+          <button class="btn ghost" id="btnClear">Limpiar tabla</button>
+          <button class="btn" id="btnClearSaved">Borrar guardado</button>
+          <button class="btn primary" id="btnExport">Exportar CSV</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div id="warnBox" class="warn" style="display:none">
+          No se pudo cargar <code>aciadep-datos.json</code>. Si abrís este HTML con <code>file://</code>, el navegador puede bloquearlo.
+          Probá con <b>Cargar JSON</b> o usá un servidor local.
+        </div>
+
+        <!-- Controles globales -->
+        <div class="controls" style="margin-bottom:10px">
+          <label>Fecha global (UTC)
+            <input type="date" id="globDate">
+          </label>
+          <label>Hora global (UTC)
+            <input type="time" id="globTime" value="15:00" step="60">
+          </label>
+          <label>Número de fecha
+            <input type="number" id="matchDay" value="3" min="1">
+          </label>
+          <label>Turnos
+            <input type="number" id="turnCount" min="1" value="5">
+          </label>
+          <label>Canchas
+            <input type="number" id="stadiumCount" min="1" value="9">
+          </label>
+          <label>&nbsp;
+            <button class="btn" id="btnRebuild">Aplicar layout</button>
+          </label>
+        </div>
+        <div class="hint">Elegí categoría y luego equipos. Fecha por defecto: próximo sábado (UTC) · Hora: 15:00. Todo queda guardado automáticamente.</div>
+        <div class="sep"></div>
+
+        <!-- Tabla -->
+        <div style="overflow:auto">
+          <table id="fixtureTable">
+            <thead>
+              <tr>
+                <th style="width:90px">Turno</th>
+                <th style="width:120px">Cancha</th>
+                <th style="width:220px">Categoría</th>
+                <th>Equipo Local</th>
+                <th>Equipo Visitante</th>
+                <th style="width:70px"></th>
+              </tr>
+            </thead>
+            <tbody id="fixtureBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sticky-footer">
+        <div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
+          <div class="kpi"><span>Partidos creados:</span> <b id="kpiRows">0</b></div>
+          <div class="kpi"><span>Completos:</span> <b id="kpiValid">0</b></div>
+          <div class="kpi"><span id="saveHint">Guardado local</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // -------- Utilidades --------
+    /* === CONFIGURACIÓN CSV === */
+    const CSV_EXPORT_WITH_BOM = false; // ← poné false si NO querés BOM
+
+    const $ = sel => document.querySelector(sel);
+    const el = (tag, attrs={}, ...children) => {
+      const n = document.createElement(tag);
+      Object.entries(attrs).forEach(([k,v])=>{
+        if(k==='class') n.className=v;
+        else if(k==='html') n.innerHTML=v;
+        else n.setAttribute(k,v);
+      });
+      for(const c of children){ n.appendChild(c); }
+      return n;
+    };
+    const fmtDate = d => `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+    const nextSaturdayUTC = () => {
+      const now = new Date();
+      const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const day = d.getUTCDay(); // 0=Dom..6=Sáb
+      const add = (6 - day + 7) % 7; // si ya es sábado, 0
+      d.setUTCDate(d.getUTCDate() + add);
+      return d;
+    };
+    const randomId = (len=6)=> Array.from({length:len},()=> "abcdefghijklmnopqrstuvwxyz0123456789"[Math.floor(Math.random()*36)]).join('');
+
+    // -------- Claves de almacenamiento --------
+    const LS_DATA  = 'aciadep.data.v1';   // catálogo (JSON)
+    const LS_STATE = 'aciadep.state.v1';  // selecciones/controles
+
+    // -------- Estado --------
+    let DATA = null;     // { turns, stadiums, categories }
+    let TEAMMAP = null;  // { teamName -> metadata }
+    let HYDRATING = false;
+
+    const toTeamMap = (data)=>{
+      const map = {};
+      for(const [cat, list] of Object.entries(data.categories)){
+        for(const t of list){
+          const name = t.name ?? t.team ?? '';
+          if(!name) continue;
+          map[name] = {
+            team_photo: t.photo ?? null,
+            team_flag: t.flag ?? null,
+            team_link: t.link ?? null,
+            team_group: cat,
+            team_group_order: t.group_order ?? 0,
+            team_is_real: t.is_real ?? 1
+          };
+        }
+      }
+      return map;
+    };
+
+    // -------- Persistencia en localStorage --------
+    const saveState = ()=>{
+      if(HYDRATING) return;
+      const turnCount = parseInt($('#turnCount').value,10) || 0;
+      const stadCount = parseInt($('#stadiumCount').value,10) || 0;
+      const picks = {};
+      let idx=0;
+      for(let t=1; t<=turnCount; t++){
+        for(let s=1; s<=stadCount; s++){
+          const tr = $('#fixtureBody').children[idx++];
+          if(!tr) continue;
+          const cat = tr.querySelector('select[data-row]')?.value || '';
+          const home = tr.querySelector('select[data-home]')?.value || '';
+          const away = tr.querySelector('select[data-away]')?.value || '';
+          if(cat || home || away){
+            picks[`${t}-${s}`] = {cat, home, away};
+          }
+        }
+      }
+      const state = {
+        date: $('#globDate').value,
+        time: $('#globTime').value,
+        matchDay: $('#matchDay').value,
+        turnCount, stadiumCount: stadCount,
+        picks
+      };
+      localStorage.setItem(LS_STATE, JSON.stringify(state));
+      $('#saveHint').textContent = 'Guardado local ✓';
+    };
+
+    const loadState = ()=>{
+      const raw = localStorage.getItem(LS_STATE);
+      if(!raw) return null;
+      try{ return JSON.parse(raw); }catch{ return null; }
+    };
+
+    const clearState = ()=>{
+      localStorage.removeItem(LS_STATE);
+      $('#saveHint').textContent = 'Guardado eliminado';
+    };
+
+    const saveDataCatalog = ()=>{
+      if(DATA) localStorage.setItem(LS_DATA, JSON.stringify(DATA));
+    };
+    const loadDataCatalog = ()=>{
+      const raw = localStorage.getItem(LS_DATA);
+      if(!raw) return null;
+      try{ return JSON.parse(raw); }catch{ return null; }
+    };
+
+    // -------- UI: tabla --------
+    function rebuildTable(){
+      const turns = parseInt($('#turnCount').value,10);
+      const scount = parseInt($('#stadiumCount').value,10);
+
+      const tbody = $('#fixtureBody');
+      tbody.innerHTML = '';
+      for(let t=1; t<=turns; t++){
+        for(let s=1; s<=scount; s++){
+          const tr = el('tr', {class:'row'});
+          const tdTurn = el('td', {}, el('span',{class:'pill', html:`${t}º turno`}));
+          const stName = DATA?.stadiums?.[s-1]?.name ?? `Cancha ${s}`;
+          const tdStad = el('td', {}, el('span',{class:'pill', html: stName}));
+
+          // Categoría
+          const selCat = el('select', { 'data-row': `${t}-${s}` });
+          fillCategoryOptions(selCat);
+          const tdCat = el('td',{}, selCat);
+
+          // Equipos
+          const selHome = el('select', {'data-home':`${t}-${s}`});
+          const selAway = el('select', {'data-away':`${t}-${s}`});
+          resetTeamSelect(selHome); resetTeamSelect(selAway);
+          const tdHome = el('td',{}, selHome);
+          const tdAway = el('td',{}, selAway);
+
+          // Acciones
+          const btnSwap = el('button',{class:'btn', title:'Intercambiar equipos'}, document.createTextNode('↔'));
+          btnSwap.addEventListener('click', ()=>{
+            const a = selHome.value, b = selAway.value;
+            selHome.value = b; selAway.value = a;
+            saveState(); updateKpis();
+          });
+          const tdAct = el('td', {style:'text-align:right'}, btnSwap);
+
+          tr.append(tdTurn, tdStad, tdCat, tdHome, tdAway, tdAct);
+          tbody.appendChild(tr);
+
+          // Eventos (guardado)
+          selCat.addEventListener('change', ()=>{
+            const cat = selCat.value;
+            const list = (DATA?.categories?.[cat] ?? []).map(x => x.name ?? x.team).filter(Boolean).sort();
+            fillTeamSelect(selHome, list);
+            fillTeamSelect(selAway, list);
+            saveState(); updateKpis();
+          });
+          selHome.addEventListener('change', ()=>{ saveState(); updateKpis(); });
+          selAway.addEventListener('change', ()=>{ saveState(); updateKpis(); });
+        }
+      }
+      updateKpis();
+      hydrateFromState(); // re-aplicar valores guardados
+    }
+
+    function hydrateFromState(){
+      const state = loadState();
+      if(!state) return;
+      HYDRATING = true;
+      try{
+        // restaurar controles (si cambian la grilla, reconstruimos)
+        if(state.turnCount) $('#turnCount').value = state.turnCount;
+        if(state.stadiumCount) $('#stadiumCount').value = state.stadiumCount;
+        if(state.date) $('#globDate').value = state.date;
+        if(state.time) $('#globTime').value = state.time;
+        if(state.matchDay) $('#matchDay').value = state.matchDay;
+
+        const turns = parseInt($('#turnCount').value,10);
+        const scount = parseInt($('#stadiumCount').value,10);
+        let needsRebuild = (turns !== state.turnCount) || (scount !== state.stadiumCount);
+        if(needsRebuild){ rebuildTable(); return; } // se re-llamará hydrate al final
+
+        // aplicar picks
+        const entries = Object.entries(state.picks || {});
+        for(const [key, pick] of entries){
+          const trSel = key; // "t-s"
+          const catSel = document.querySelector(`select[data-row="${trSel}"]`);
+          const homeSel = document.querySelector(`select[data-home="${trSel}"]`);
+          const awaySel = document.querySelector(`select[data-away="${trSel}"]`);
+          if(!catSel || !homeSel || !awaySel) continue;
+
+          if(pick.cat && DATA?.categories?.[pick.cat]){
+            catSel.value = pick.cat;
+            // dispara llenado de equipos
+            const list = (DATA.categories[pick.cat] ?? []).map(x => x.name ?? x.team).filter(Boolean).sort();
+            fillTeamSelect(homeSel, list);
+            fillTeamSelect(awaySel, list);
+          }
+          if(pick.home) homeSel.value = pick.home;
+          if(pick.away) awaySel.value = pick.away;
+        }
+      } finally {
+        HYDRATING = false;
+        updateKpis();
+      }
+    }
+
+    function fillCategoryOptions(select){
+      select.innerHTML = '';
+      if(DATA?.categories){
+        select.appendChild(el('option',{value:''}, document.createTextNode('— elegir categoría —')));
+        Object.keys(DATA.categories).sort().forEach(cat=>{
+          select.appendChild(el('option',{value:cat}, document.createTextNode(cat)));
+        });
+        select.disabled = false;
+      } else {
+        select.appendChild(el('option',{value:''}, document.createTextNode('Cargar JSON primero…')));
+        select.disabled = true;
+      }
+    }
+    function resetTeamSelect(select){
+      select.innerHTML = '';
+      select.appendChild(el('option',{value:''}, document.createTextNode('— elegir equipo —')));
+      select.disabled = true;
+    }
+    function fillTeamSelect(select, teams){
+      resetTeamSelect(select);
+      teams.forEach(n=>{
+        select.appendChild(el('option',{value:n}, document.createTextNode(n)));
+      });
+      select.disabled = false;
+    }
+
+    // -------- Exportar CSV (UTF-8 con BOM) --------
+    function exportCSV(){
+      if(!DATA || !TEAMMAP){ alert('Cargá el JSON primero.'); return; }
+      const date = $('#globDate').value;
+      const time = $('#globTime').value || '15:00';
+      if(!date){ alert('Elegí una fecha global.'); return; }
+      const playDate = `${date} ${time}:00`;
+      const matchDay = parseInt($('#matchDay').value || '1', 10);
+
+      const rows = [];
+      const body = $('#fixtureBody');
+      const turnCount = parseInt($('#turnCount').value,10);
+      const stadCount = parseInt($('#stadiumCount').value,10);
+
+      let idx=0;
+      for(let t=1; t<=turnCount; t++){
+        for(let s=1; s<=stadCount; s++){
+          const tr = body.children[idx++];
+          const selCat = tr.querySelector('select[data-row]');
+          const selHome = tr.querySelector('select[data-home]');
+          const selAway = tr.querySelector('select[data-away]');
+          const cat = selCat.value;
+          const home = selHome.value;
+          const away = selAway.value;
+          const stadium = DATA?.stadiums?.[s-1]?.name ?? `Cancha ${s}`;
+          if(!cat || !home || !away) continue;
+
+          const H = TEAMMAP[home] ?? {team_photo:null,team_flag:null,team_link:null,team_group:cat,team_group_order:0,team_is_real:1};
+          const A = TEAMMAP[away] ?? {team_photo:null,team_flag:null,team_link:null,team_group:cat,team_group_order:0,team_is_real:1};
+
+          rows.push({
+            play_date: playDate,
+            home_team: home,
+            away_team: away,
+            stadium: stadium,
+            match_type: `Fecha ${matchDay}`,
+            home_team_photo: H.team_photo ?? null,
+            home_team_flag: H.team_flag ?? null,
+            home_team_link: H.team_link ?? null,
+            home_team_group: cat,
+            home_team_group_order: H.team_group_order ?? 0,
+            home_team_is_real: H.team_is_real ?? 1,
+            away_team_photo: A.team_photo ?? null,
+            away_team_flag: A.team_flag ?? null,
+            away_team_link: A.team_link ?? null,
+            away_team_group: cat,
+            away_team_group_order: A.team_group_order ?? 0,
+            away_team_is_real: A.team_is_real ?? 1,
+            stadium_photo: DATA?.stadiums?.[s-1]?.photo ?? null
+          });
+        }
+      }
+      if(!rows.length){ alert('No hay partidos completos para exportar.'); return; }
+
+      const headers = [
+        'play_date','home_team','away_team','stadium','match_type',
+        'home_team_photo','home_team_flag','home_team_link','home_team_group','home_team_group_order','home_team_is_real',
+        'away_team_photo','away_team_flag','away_team_link','away_team_group','away_team_group_order','away_team_is_real',
+        'stadium_photo'
+      ];
+      const escape = v=>{
+        if(v===null || v===undefined) return '';
+        const s = String(v);
+        return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+      };
+      const lines = [headers.join(',')];
+      for(const r of rows){ lines.push(headers.map(h=>escape(r[h])).join(',')); }
+      const csv = lines.join('\n');
+
+      const fname = `petryla-aciadep-fecha(${matchDay})-${date}-${randomId(6)}.csv`;
+
+      // Asegura que no haya BOM al inicio del string por accidente.
+      let csvOut = csv.replace(/^\uFEFF/, '');
+
+      // Usa BOM SOLO si el flag está en true.
+      const chunks = CSV_EXPORT_WITH_BOM ? ['\uFEFF', csvOut] : [csvOut];
+      const blob = new Blob(chunks, {type:'text/csv;charset=utf-8;'});
+      
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fname;
+      document.body.appendChild(a);
+      a.click(); a.remove();
+    }
+
+    // -------- KPIs --------
+    function updateKpis(){
+      const body = $('#fixtureBody');
+      const rows = [...body.querySelectorAll('tr.row')];
+      const total = rows.length;
+      const valid = rows.filter(tr=>{
+        const c=tr.querySelector('select[data-row]')?.value;
+        const h=tr.querySelector('select[data-home]')?.value;
+        const a=tr.querySelector('select[data-away]')?.value;
+        return c && h && a;
+      }).length;
+      $('#kpiRows').textContent = total;
+      $('#kpiValid').textContent = valid;
+      $('#summaryKpi').textContent = `${valid}/${total} partidos completos`;
+    }
+
+    // -------- Carga de JSON --------
+    async function loadDefaultJson(){
+      // 1) Intentar fetch del archivo en la misma carpeta
+      try{
+        const resp = await fetch('aciadep-datos.json', {cache:'no-store'});
+        if(!resp.ok) throw new Error('HTTP '+resp.status);
+        DATA = await resp.json();
+        TEAMMAP = toTeamMap(DATA);
+        saveDataCatalog(); // persistimos catálogo para futuro
+        $('#warnBox').style.display = 'none';
+        // Ajustar controles desde JSON
+        $('#turnCount').value = DATA.turns ?? 5;
+        $('#stadiumCount').value = DATA.stadiums?.length ?? 9;
+        rebuildTable();
+        return;
+      }catch(e){
+        // continúa con fallback
+      }
+      // 2) Fallback: usar catálogo guardado previamente
+      const saved = loadDataCatalog();
+      if(saved){
+        DATA = saved;
+        TEAMMAP = toTeamMap(DATA);
+        $('#warnBox').style.display = 'none';
+        $('#turnCount').value = DATA.turns ?? 5;
+        $('#stadiumCount').value = DATA.stadiums?.length ?? 9;
+        rebuildTable();
+      }else{
+        // 3) Avisar que hace falta cargar manualmente
+        $('#warnBox').style.display = 'block';
+        rebuildTable();
+      }
+    }
+
+    function loadJsonFromFile(file){
+      const reader = new FileReader();
+      reader.onload = e=>{
+        try{
+          DATA = JSON.parse(e.target.result);
+          TEAMMAP = toTeamMap(DATA);
+          saveDataCatalog(); // guardamos para próximas veces
+          $('#warnBox').style.display = 'none';
+          $('#turnCount').value = DATA.turns ?? 5;
+          $('#stadiumCount').value = DATA.stadiums?.length ?? 9;
+          rebuildTable();
+        }catch(err){ alert('JSON inválido: '+err.message); }
+      };
+      reader.readAsText(file);
+    }
+
+    // -------- Inicialización --------
+    function initDefaults(){
+      const st = loadState();
+      if(st){
+        $('#turnCount').value = st.turnCount ?? 5;
+        $('#stadiumCount').value = st.stadiumCount ?? 9;
+        $('#globDate').value = st.date || fmtDate(nextSaturdayUTC());
+        $('#globTime').value = st.time || '15:00';
+        $('#matchDay').value = st.matchDay || 3;
+      }else{
+        $('#turnCount').value = 5;
+        $('#stadiumCount').value = 9;
+        $('#globDate').value = fmtDate(nextSaturdayUTC());
+        $('#globTime').value = '15:00';
+        $('#matchDay').value = 3;
+      }
+    }
+
+    async function boot(){
+      initDefaults();
+      rebuildTable();           // pinta la grilla
+      await loadDefaultJson();  // intenta cargar catálogo por defecto
+      hydrateFromState();       // aplica selecciones guardadas
+    }
+
+    // -------- Eventos --------
+    $('#btnRebuild').addEventListener('click', ()=>{ rebuildTable(); saveState(); });
+    $('#btnExport').addEventListener('click', exportCSV);
+    $('#btnClear').addEventListener('click', ()=>{
+      if(!confirm('¿Vaciar todas las selecciones de la tabla?')) return;
+      document.querySelectorAll('#fixtureBody select').forEach(s=>{
+        s.value='';
+        if(s.hasAttribute('data-home') || s.hasAttribute('data-away')) s.disabled = true;
+      });
+      saveState(); updateKpis();
+    });
+    $('#btnClearSaved').addEventListener('click', ()=>{
+      if(!confirm('Esto eliminará el guardado local de encuentros y controles. ¿Continuar?')) return;
+      clearState();
+    });
+
+    // guardado por cambios
+    ['globDate','globTime','matchDay','turnCount','stadiumCount'].forEach(id=>{
+      $('#'+id).addEventListener('change', ()=>{ saveState(); if(id==='turnCount'||id==='stadiumCount'){ rebuildTable(); } });
+    });
+
+    $('#btnLoadFile').addEventListener('click', ()=> $('#fileJson').click());
+    $('#fileJson').addEventListener('change', e=>{
+      const f = e.target.files?.[0];
+      if(f) loadJsonFromFile(f);
+    });
+
+    boot();
+  </script>
+</body>
+</html>
