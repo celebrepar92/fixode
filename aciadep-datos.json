@@ -1,0 +1,709 @@
+{
+  "turns": 5,
+  "stadiums": [
+    {
+      "name": "Cancha 1",
+      "photo": null
+    },
+    {
+      "name": "Cancha 2",
+      "photo": null
+    },
+    {
+      "name": "Cancha 3",
+      "photo": null
+    },
+    {
+      "name": "Cancha 4",
+      "photo": null
+    },
+    {
+      "name": "Cancha 5",
+      "photo": null
+    },
+    {
+      "name": "Cancha 6",
+      "photo": null
+    },
+    {
+      "name": "Cancha 7",
+      "photo": null
+    },
+    {
+      "name": "Cancha 8",
+      "photo": null
+    },
+    {
+      "name": "Cancha 9",
+      "photo": null
+    }
+  ],
+  "categories": {
+    "LIBRES A": [
+      {
+        "name": "ABOGADOS D",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/07/Abogados-D-106x128-1.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/07/Abogados-D-106x128-2.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ABOGADOS LIBRES",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/AbogadosLibresNew-128x125.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/AbogadosLibresNew-128x125.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES «L»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/CONT_L-removebg-preview-128x112.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/CONT_L-removebg-preview-128x112.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ESTUDIO",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Estudio_L_N-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Estudio_L_N-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "INTERPROFESIONALES YACARÉ",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-78x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-78x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "LOS PROFESIONALES",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Los_Profesionales_nuevo-removebg-preview-104x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Los_Profesionales_nuevo-removebg-preview-104x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESIONALES ASOCIADOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Profesionales-Asociados-99x128.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Profesionales-Asociados-99x128.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORES «B»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Profes_B-removebg-preview-4-128x126.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Profes_B-removebg-preview-4-128x126.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "SQUADRA ARQUITECTOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/squadra_Arq-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/squadra_Arq-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "UCSF",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2021/09/UCSF_verde-removebg-preview-108x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2021/09/UCSF_verde-removebg-preview-108x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "LIBRES B": [
+      {
+        "name": "ABOGADOS DR",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/Abogados-DR-106x128.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/Abogados-DR-106x128.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "AGROFOR",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Escudo_Agrofor_page-0001-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Escudo_Agrofor_page-0001-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ATLETICO PROFESIONALES",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Atletico_Prof_M-removebg-preview-121x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Atletico_Prof_M-removebg-preview-121x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES «JR»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Contadores-JRs-102x128.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Contadores-JRs-102x128.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ESCRIBANOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Escribanos_libres_P-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Escribanos_libres_P-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "INGENIEROS «C»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/ingC-removebg-preview-107x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/ingC-removebg-preview-107x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORES «L»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/PL_N-removebg-preview-106x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/PL_N-removebg-preview-106x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "JUNIORS B": [
+      {
+        "name": "ABOGADOS D JUNIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Abogados_D_Jrs-removebg-preview-114x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Abogados_D_Jrs-removebg-preview-114x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ABOGADOS «A»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/A2A-removebg-preview-125x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/A2A-removebg-preview-125x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "AGROFOR GG",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2021/09/Agrofor_GG_2-removebg-preview-126x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2021/09/Agrofor_GG_2-removebg-preview-126x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CATOLICA JRS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/catolica_juniors-removebg-preview-128x120.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/catolica_juniors-removebg-preview-128x120.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES C-SQUADRA PROF.",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Cont_C-_Sq_Profesionales-removebg-preview-128x119.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Cont_C-_Sq_Profesionales-removebg-preview-128x119.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ESCRIBANOS JRS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Escribanos_jr2-removebg-preview-1-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Escribanos_jr2-removebg-preview-1-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESIONALES ASOCIADOS JR",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2019/03/Prof_Asociados_Jrs-removebg-preview-114x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2019/03/Prof_Asociados_Jrs-removebg-preview-114x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESIONALES FENIX",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/PF-removebg-preview-128x124.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/PF-removebg-preview-128x124.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESIONALES UNIDOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/PU-removebg-preview-123x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/PU-removebg-preview-123x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "UNIVERSITARIOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Universitarios-removebg-preview-1-128x91.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Universitarios-removebg-preview-1-128x91.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "YACARE XL",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-1-78x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-1-78x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "JUNIORS A": [
+      {
+        "name": "ABL JUNIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/03/abl_jrs-removebg-preview-128x122.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/03/abl_jrs-removebg-preview-128x122.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ABOGADOS INTER D",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2024/02/Abogados_Inter_D-removebg-preview-97x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2024/02/Abogados_Inter_D-removebg-preview-97x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "AGROFOR L",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Agrofor_Leyendas-removebg-preview-101x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Agrofor_Leyendas-removebg-preview-101x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES INTERMEDIA",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/CONT_L-removebg-preview-1-128x112.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/CONT_L-removebg-preview-1-128x112.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ESTUDIO FC",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Estudio_L_N-removebg-preview-1-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Estudio_L_N-removebg-preview-1-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "LOS PROFESIONALES II",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/LP2-removebg-preview-1-128x112.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/LP2-removebg-preview-1-128x112.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORES «B» JUNIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2022/08/Profes_B_Jrs-removebg-preview-111x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2022/08/Profes_B_Jrs-removebg-preview-111x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "SAN FRANCISCO-SALUD",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/SF-SALUD-removebg-preview-2-115x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/SF-SALUD-removebg-preview-2-115x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "VISITADORES MEDICOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/VM-removebg-preview-128x120.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/VM-removebg-preview-128x120.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "YACARE JUNIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-1-78x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-1-78x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "FEMENINO": [
+      {
+        "name": "ABOGADAS LIBRES FEM",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/Abogadas_libres_n-removebg-preview-1-119x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/Abogadas_libres_n-removebg-preview-1-119x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "AGROFOR F",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/Agrofor_Fem_N-removebg-preview-128x122.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/Agrofor_Fem_N-removebg-preview-128x122.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ALIADAS ECONÓMICAS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/Aliadas_Economicas-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/Aliadas_Economicas-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORAS LIBRES",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Contadoras_Libres-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Contadoras_Libres-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "DE MENTES FC (PSICÓLOGAS)",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/De_mentes_n-removebg-preview-128x112.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/De_mentes_n-removebg-preview-128x112.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "F.F.C.A.M (ABOGADAS)",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/FFCAM_N_N_NN-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/FFCAM_N_N_NN-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "LA ACADEMIA FC",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/LA_Academia-removebg-preview-1-128x108.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/LA_Academia-removebg-preview-1-128x108.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "LAS T.T.",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Las_TT_N-removebg-preview-107x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Las_TT_N-removebg-preview-107x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORAS B",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/pROFES_b_FEM_N-removebg-preview-128x110.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/pROFES_b_FEM_N-removebg-preview-128x110.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "SALUD FC FEM",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Salud_FC_N-removebg-preview-128x101.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Salud_FC_N-removebg-preview-128x101.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "SQUADRA ARQUITECTAS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Sq_Arquitectas_N-removebg-preview-128x120.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Sq_Arquitectas_N-removebg-preview-128x120.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "YACARE FEM",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Yacare_Fem-removebg-preview-128x125.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/09/Yacare_Fem-removebg-preview-128x125.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "SENIORS A": [
+      {
+        "name": "AGROFOR SENIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Agrofor_Seniors_1-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Agrofor_Seniors_1-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ARQUITECTOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Arquitectos-Seniors-b-118x128.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Arquitectos-Seniors-b-118x128.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CATOLICA «+»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/03/CATOLICA_-removebg-preview-113x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/03/CATOLICA_-removebg-preview-113x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES «A»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/LOGO-CONTADORES-2019-CURVAS__1__page-0001-removebg-preview-removebg-preview-122x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/LOGO-CONTADORES-2019-CURVAS__1__page-0001-removebg-preview-removebg-preview-122x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ESTUDIO FC SENIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2024/02/Estudio_L_N-removebg-preview.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2024/02/Estudio_L_N-removebg-preview.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORES B SENIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/PBS__S-removebg-preview-125x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/PBS__S-removebg-preview-125x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORES «S»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2019/03/Profes_S_A2-removebg-preview-107x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2019/03/Profes_S_A2-removebg-preview-107x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "VISITADORES MÉDICOS XL",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/VM-removebg-preview-1-128x120.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/VM-removebg-preview-1-128x120.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "YACARE SENIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-1-78x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/iy-removebg-preview-1-78x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "SUPER MASTERS": [
+      {
+        "name": "ABOGADOS «S»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Abogados_ss-removebg-preview-120x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Abogados_ss-removebg-preview-120x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES «S»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Cont_s-removebg-preview-115x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Cont_s-removebg-preview-115x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CPAIM",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/CPAIM_5-removebg-preview-128x81.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/CPAIM_5-removebg-preview-128x81.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "GALENOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/galenos_6-removebg-preview-1-108x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/galenos_6-removebg-preview-1-108x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "MEDICOS «B»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/MEDICOS_B_v-removebg-preview-125x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/MEDICOS_B_v-removebg-preview-125x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "QUIMICOS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/q-removebg-preview-128x108.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/q-removebg-preview-128x108.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "SENIORS B": [
+      {
+        "name": "ABOGADOS «B»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/Abogados_B-removebg-preview-115x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/Abogados_B-removebg-preview-115x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ABOGADOS «DS»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/ADS-removebg-preview-128x123.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/ADS-removebg-preview-128x123.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES «E»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Contadores_E-removebg-preview-128x119.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Contadores_E-removebg-preview-128x119.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ESCRIBANOS SENIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2024/02/Escribanos_Seniors-removebg-preview-115x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2024/02/Escribanos_Seniors-removebg-preview-115x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "M.O.L. «S»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Misiones_On_Line-removebg-preview-1-104x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Misiones_On_Line-removebg-preview-1-104x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "MEDICOS «A»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Medicos_A_2-removebg-preview-112x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Medicos_A_2-removebg-preview-112x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "SAN FRANCISCO SENIORS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/San_Francisco_S-removebg-preview-124x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/San_Francisco_S-removebg-preview-124x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ],
+    "MASTERS": [
+      {
+        "name": "ABOGADOS B MASTERS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/Abog-BM3-94x128.jpg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/04/Abog-BM3-94x128.jpg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ABOGADOS «BMW»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2023/03/ABBMW-removebg-preview-128x92.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2023/03/ABBMW-removebg-preview-128x92.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "AGRIMENSORES «B»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/ABBB-removebg-preview-128x125.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/ABBB-removebg-preview-128x125.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "AGROFOR M",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2019/03/Agrofor_M_a-removebg-preview-123x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2019/03/Agrofor_M_a-removebg-preview-123x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "ARQUITECTOS MASTERS",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Arquitectos-Seniors-b-118x128.jpeg",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Arquitectos-Seniors-b-118x128.jpeg",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "CONTADORES «A» MASTER",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/CONT_L-removebg-preview-128x112.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/CONT_L-removebg-preview-128x112.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "PROFESORES «C»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/profes_Cn-removebg-preview-128x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/profes_Cn-removebg-preview-128x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "UNIVERSITARIOS «A»",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Universitarios_A2-removebg-preview-100x128.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2018/03/Universitarios_A2-removebg-preview-100x128.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      },
+      {
+        "name": "VISITADORES MEDICOS XXL MASTER",
+        "photo": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/VM-removebg-preview-128x120.png",
+        "flag": "https://aciadep.misionesonline.net/wp-content/uploads/2025/03/VM-removebg-preview-128x120.png",
+        "link": null,
+        "group_order": 0,
+        "is_real": 1
+      }
+    ]
+  }
+}

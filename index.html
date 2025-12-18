@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixode – Generador de CSV para fixtures</title>
+  <link rel="icon" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#0c1118; --panel:#0f1623; --muted:#93a0b4; --text:#e7edf6; --accent:#53a8ff;
+      --border:#1d293a; --card:#0f1826; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:linear-gradient(180deg,#0b1020 0%,#0d1220 100%);
+      font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+      color:var(--text);
+    }
+    header{
+      position:sticky;top:0;z-index:5;background:rgba(12,17,24,.6);backdrop-filter:saturate(140%) blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:18px 20px}
+    .title{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .badge{font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px}
+    .panel .hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .panel .bd{padding:16px}
+    .controls{display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));gap:12px}
+    .controls label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
+    input, select, button{
+      background:#0b1524;border:1px solid var(--border);color:var(--text);
+      border-radius:10px;padding:10px 12px;outline:none;transition:.2s;
+    }
+    input:focus,select:focus{border-color:#2a79ff;box-shadow:0 0 0 3px rgba(83,168,255,.15)}
+    .btn{background:#11213a;border:1px solid #1b3966;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600}
+    .btn:hover{background:#0f203d}
+    .btn.primary{background:linear-gradient(180deg,#2468ff,#1b56d8); border:0}
+    .btn.primary:hover{filter:brightness(1.05)}
+    .btn.ghost{background:transparent;border:1px dashed var(--border);color:var(--muted)}
+    .hint{font-size:12px;color:var(--muted)}
+    .sep{height:1px;background:var(--border);margin:12px 0}
+    table{width:100%;border-collapse:separate;border-spacing:0 10px}
+    th,td{padding: 8px 10px;} 
+    th{font-size:12px;color:var(--muted);text-align:left}
+    tr.row{
+      background:var(--card);border:1px solid var(--border);border-radius:12px;
+      box-shadow:0 6px 18px rgba(0,0,0,.25);
+    }
+    /* Estilo para fila verificada/bloqueada */
+    tr.row.locked {
+      opacity: 0.5;
+      background: #070b14;
+    }
+    tr.row.locked select, tr.row.locked button:not(.row-actions) {
+      pointer-events: none;
+      filter: grayscale(1);
+    }
+    .lock-cell {
+      text-align: center;
+      width: 40px;
+    }
+    .check-lock {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    tr.row td:first-child{border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tr.row td:last-child{border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .pill{font-size:12px;padding:6px 10px;border-radius:999px;background:#0b1524;border:1px solid var(--border);color:var(--muted)}
+    .pill.mini{padding:4px 8px; font-weight: bold;}
+    .stack{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .right{display:flex;gap:10px;align-items:center}
+    .kpi{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+    .kpi b{color:var(--text)}
+    .sticky-footer{
+      position:sticky;bottom:0;background:rgba(12,17,24,.7);backdrop-filter:blur(8px);
+      border-top:1px solid var(--border)
+    }
+    .sticky-footer .wrap{padding:12px 16px}
+    
+    .row-actions-container {
+      display: flex;
+      gap: 4px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .row-actions{
+      padding: 6px 8px;
+      line-height: 1;
+      font-size: 14px;
+      margin: 0; 
+      white-space: nowrap;
+    }
+
+    @media (max-width:1080px){
+      .controls{grid-template-columns:repeat(2, minmax(120px,1fr))}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap title">
+      <div class="stack">
+        <h2 style="margin:0">Fixode - Generador de fixtures</h2>
+        <div class="badges">
+          <span class="badge">CSV compatible · “Fecha N”</span>
+          <span class="badge">Solo dropdowns</span>
+          <span class="badge">Auto-guardado</span>
+        </div>
+      </div>
+      <div class="right">
+        <input type="file" id="fileState" accept="application/json" style="display:none">
+        <button class="btn" id="btnLoadState">Cargar Partidos (JSON)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="hd">
+        <div class="stack">
+          <strong>Constructor</strong>
+          <span class="pill" id="summaryKpi">0 partidos</span>
+        </div>
+        <div class="right">
+          <button class="btn ghost" id="btnClear">Limpiar tabla</button>
+          <button class="btn" id="btnClearSaved">Borrar guardado</button>
+          <button class="btn primary" id="btnExport">Exportar CSV</button>
+        </div>
+      </div>
+      <div class="bd">
+        <div class="controls" style="margin-bottom:10px">
+          <label>Fecha global (UTC)
+            <input type="date" id="globDate">
+          </label>
+          <label>Hora global (UTC)
+            <input type="time" id="globTime" value="15:00" step="60">
+          </label>
+          <label>Número de fecha
+            <input type="number" id="matchDay" value="3" min="1">
+          </label>
+          <label>Turnos
+            <input type="number" id="turnCount" min="1" value="5">
+          </label>
+          <label>Canchas
+            <input type="number" id="stadiumCount" min="1" value="9">
+          </label>
+          <label>&nbsp;
+            <button class="btn" id="btnRebuild">Aplicar layout</button>
+          </label>
+        </div>
+        <div class="hint">Elegí categoría y equipos. Marcá el checkbox para verificar/bloquear. Todo queda guardado automáticamente.</div>
+        <div class="sep"></div>
+
+        <div style="overflow:auto">
+          <table id="fixtureTable">
+            <thead>
+              <tr>
+                <th style="width:30px">Ver.</th>
+                <th style="width:50px">Turno</th>
+                <th style="width:80px">Cancha</th>
+                <th style="width:200px">Categoría</th>
+                <th>Equipo Local</th>
+                <th>Equipo Visitante</th>
+                <th style="width:100px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="fixtureBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sticky-footer">
+        <div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
+          <div class="kpi"><span>Partidos creados:</span> <b id="kpiRows">0</b></div>
+          <div class="kpi"><span>Completos:</span> <b id="kpiValid">0</b></div>
+          <div class="kpi"><span id="saveHint">Guardado local</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // -------- Utilidades --------
+    const CSV_EXPORT_WITH_BOM = false;
+
+    const $ = sel => document.querySelector(sel);
+    const el = (tag, attrs={}, ...children) => {
+      const n = document.createElement(tag);
+      Object.entries(attrs).forEach(([k,v])=>{
+        if(k==='class') n.className=v;
+        else if(k==='html') n.innerHTML=v;
+        else n.setAttribute(k,v);
+      });
+      for(const c of children){ n.appendChild(c); }
+      return n;
+    };
+    const fmtDate = d => `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+    
+    const coordsToLinear = (t, s, scount) => (t - 1) * scount + s;
+    const linearToCoords = (idx, scount) => {
+        const t = Math.ceil(idx / scount);
+        const s = idx - (t - 1) * scount;
+        return { t, s };
+    };
+
+    const nextSaturdayUTC = () => {
+      const now = new Date();
+      const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const day = d.getUTCDay();
+      const add = (6 - day + 7) % 7;
+      d.setUTCDate(d.getUTCDate() + add);
+      return d;
+    };
+    const randomId = (len=6)=> Array.from({length:len},()=> "abcdefghijklmnopqrstuvwxyz0123456789"[Math.floor(Math.random()*36)]).join('');
+
+    // -------- Claves de almacenamiento --------
+    const LS_DATA  = 'aciadep.data.v1';
+    const LS_STATE = 'aciadep.state.v1';
+
+    // -------- Estado --------
+    let DATA = null;
+    let TEAMMAP = null;
+    let HYDRATING = false;
+
+    const toTeamMap = (data)=>{
+      const map = {};
+      if (!data?.categories) return map;
+      for(const [cat, list] of Object.entries(data.categories)){
+        for(const t of list){
+          const name = t.name ?? t.team ?? '';
+          if(!name) continue;
+          map[name] = {
+            team_photo: t.photo ?? null,
+            team_flag: t.flag ?? null,
+            team_link: t.link ?? null,
+            team_group: cat,
+            team_group_order: t.group_order ?? 0,
+            team_is_real: t.is_real ?? 1
+          };
+        }
+      }
+      return map;
+    };
+
+    const saveState = ()=>{
+      if(HYDRATING) return;
+      const turnCount = parseInt($('#turnCount').value,10) || 0;
+      const stadCount = parseInt($('#stadiumCount').value,10) || 0;
+      const picks = {};
+      let idx=0;
+      for(let t=1; t<=turnCount; t++){
+        for(let s=1; s<=stadCount; s++){
+          const tr = $('#fixtureBody').children[idx++];
+          if(!tr) continue;
+          const cat = tr.querySelector('select[data-row]')?.value || '';
+          const home = tr.querySelector('select[data-home]')?.value || '';
+          const away = tr.querySelector('select[data-away]')?.value || '';
+          const locked = tr.classList.contains('locked');
+          if(cat || home || away || locked){
+            picks[`${t}-${s}`] = {cat, home, away, locked};
+          }
+        }
+      }
+      const state = {
+        date: $('#globDate').value,
+        time: $('#globTime').value,
+        matchDay: $('#matchDay').value,
+        turnCount, stadiumCount: stadCount,
+        picks
+      };
+      localStorage.setItem(LS_STATE, JSON.stringify(state));
+      $('#saveHint').textContent = 'Guardado local ✓';
+    };
+
+    const loadState = ()=>{
+      const raw = localStorage.getItem(LS_STATE);
+      if(!raw) return null;
+      try{ return JSON.parse(raw); }catch{ return null; }
+    };
+
+    const clearState = ()=>{
+      localStorage.removeItem(LS_STATE);
+      $('#saveHint').textContent = 'Guardado eliminado';
+    };
+
+    const saveDataCatalog = ()=>{
+      if(DATA) localStorage.setItem(LS_DATA, JSON.stringify(DATA));
+    };
+    const loadDataCatalog = ()=>{
+      const raw = localStorage.getItem(LS_DATA);
+      if(!raw) return null;
+      try{ return JSON.parse(raw); }catch{ return null; }
+    };
+    
+    function insertRowAt(t, s) {
+        let state = loadState();
+        if (!state) return;
+        const scount = parseInt(state.stadiumCount, 10);
+        const tcount = parseInt(state.turnCount, 10);
+        const oldTotalSlots = tcount * scount;
+        const insertionIndex = coordsToLinear(t, s, scount);
+        const newPicks = {};
+        for (let i = 1; i < insertionIndex; i++) {
+            const coords = linearToCoords(i, scount);
+            const key = `${coords.t}-${coords.s}`;
+            if (state.picks[key]) newPicks[key] = state.picks[key];
+        }
+        const newInsertionKey = `${t}-${s}`;
+        newPicks[newInsertionKey] = {cat: '', home: '', away: '', locked: false};
+        for (let i = insertionIndex; i <= oldTotalSlots; i++) {
+            const oldCoords = linearToCoords(i, scount);
+            const oldKey = `${oldCoords.t}-${oldCoords.s}`;
+            if (state.picks[oldKey]) {
+                const newLinearIndex = i + 1;
+                const newCoords = linearToCoords(newLinearIndex, scount);
+                const newKey = `${newCoords.t}-${newCoords.s}`;
+                newPicks[newKey] = state.picks[oldKey];
+            }
+        }
+        const newTotalSlots = oldTotalSlots + 1;
+        const newTurnCount = Math.ceil(newTotalSlots / scount);
+        state.picks = newPicks;
+        state.turnCount = newTurnCount;
+        $('#turnCount').value = newTurnCount;
+        localStorage.setItem(LS_STATE, JSON.stringify(state));
+        rebuildTable();
+    }
+
+    function deleteRowAt(t, s) {
+        let state = loadState();
+        if (!state) return;
+        const scount = parseInt(state.stadiumCount, 10);
+        const tcount = parseInt(state.turnCount, 10);
+        const oldTotalSlots = tcount * scount;
+        const deletionIndex = coordsToLinear(t, s, scount);
+        if (deletionIndex < 1 || deletionIndex > oldTotalSlots) return;
+        const newPicks = {};
+        const newTotalSlots = oldTotalSlots - 1;
+        if (newTotalSlots < 1) {
+            state.picks = {};
+            state.turnCount = 1;
+        } else {
+            for (let i = 1; i < deletionIndex; i++) {
+                const coords = linearToCoords(i, scount);
+                const key = `${coords.t}-${coords.s}`;
+                if (state.picks[key]) newPicks[key] = state.picks[key];
+            }
+            for (let i = deletionIndex + 1; i <= oldTotalSlots; i++) {
+                const oldCoords = linearToCoords(i, scount);
+                const oldKey = `${oldCoords.t}-${oldCoords.s}`;
+                if (state.picks[oldKey]) {
+                    const newLinearIndex = i - 1;
+                    const newCoords = linearToCoords(newLinearIndex, scount);
+                    const newKey = `${newCoords.t}-${newCoords.s}`;
+                    newPicks[newKey] = state.picks[oldKey];
+                }
+            }
+            state.turnCount = Math.ceil(newTotalSlots / scount);
+            state.picks = newPicks;
+        }
+        $('#turnCount').value = state.turnCount;
+        localStorage.setItem(LS_STATE, JSON.stringify(state));
+        rebuildTable();
+    }
+
+    // -------- UI: tabla --------
+    function rebuildTable(){
+      const turns = parseInt($('#turnCount').value,10);
+      const scount = parseInt($('#stadiumCount').value,10);
+      const tbody = $('#fixtureBody');
+      tbody.innerHTML = '';
+      for(let t=1; t<=turns; t++){
+        for(let s=1; s<=scount; s++){
+          const key = `${t}-${s}`;
+          const tr = el('tr', {class:'row', 'data-t': t, 'data-s': s});
+          
+          // V. (Verificación)
+          const chkLock = el('input', {type:'checkbox', class:'check-lock', 'data-lock': key});
+          const tdLock = el('td', {class:'lock-cell', style:'vertical-align:middle'}, chkLock);
+
+          // T. (Turno solo número)
+          const tdTurn = el('td', {style:'vertical-align:middle'}, el('span',{class:'pill mini', html:`${t}`}));
+          
+          // Cancha (solo el nombre de la cancha)
+          const stName = DATA?.stadiums?.[s-1]?.name ?? `${s}`;
+          const tdStad = el('td', {style:'vertical-align:middle'}, el('span',{class:'pill mini', html: stName.replace('Cancha ', '')}));
+
+          const selCat = el('select', { 'data-row': key });
+          fillCategoryOptions(selCat);
+          const tdCat = el('td',{}, selCat);
+
+          const selHome = el('select', {'data-home':key});
+          const selAway = el('select', {'data-away':key});
+          resetTeamSelect(selHome); resetTeamSelect(selAway);
+          const tdHome = el('td',{}, selHome);
+          const tdAway = el('td',{}, selAway);
+
+          const btnSwap = el('button',{class:'btn row-actions', title:'Swap'}, document.createTextNode('↔'));
+          const btnInsert = el('button',{class:'btn row-actions', title:'+'}, document.createTextNode('+')); 
+          const btnDelete = el('button',{class:'btn row-actions', title:'-'}, document.createTextNode('−')); 
+          const actionsContainer = el('div', {class: 'row-actions-container'}, btnDelete, btnSwap, btnInsert);
+          const tdAct = el('td', {style:'text-align:right; vertical-align:middle'}, actionsContainer);
+
+          tr.append(tdLock, tdTurn, tdStad, tdCat, tdHome, tdAway, tdAct);
+          tbody.appendChild(tr);
+
+          chkLock.addEventListener('change', ()=>{
+            if(chkLock.checked) tr.classList.add('locked');
+            else tr.classList.remove('locked');
+            saveState();
+          });
+
+          selCat.addEventListener('change', ()=>{
+            const cat = selCat.value;
+            const list = (DATA?.categories?.[cat] ?? []).map(x => x.name ?? x.team).filter(Boolean).sort();
+            fillTeamSelect(selHome, list);
+            fillTeamSelect(selAway, list);
+            saveState(); updateKpis();
+          });
+          selHome.addEventListener('change', ()=>{ saveState(); updateKpis(); });
+          selAway.addEventListener('change', ()=>{ saveState(); updateKpis(); });
+          btnInsert.addEventListener('click', (e)=>{
+              e.preventDefault();
+              insertRowAt(parseInt(tr.getAttribute('data-t'), 10), parseInt(tr.getAttribute('data-s'), 10));
+          });
+          btnDelete.addEventListener('click', (e)=>{
+              e.preventDefault();
+              deleteRowAt(parseInt(tr.getAttribute('data-t'), 10), parseInt(tr.getAttribute('data-s'), 10));
+          });
+          btnSwap.addEventListener('click', (e)=>{
+              e.preventDefault();
+              const a = selHome.value, b = selAway.value;
+              selHome.value = b; selAway.value = a;
+              saveState(); updateKpis();
+          });
+        }
+      }
+      updateKpis();
+      hydrateFromState();
+    }
+
+    function hydrateFromState(){
+      const state = loadState();
+      if(!state) return;
+      HYDRATING = true;
+      try{
+        if(state.turnCount) $('#turnCount').value = state.turnCount;
+        if(state.stadiumCount) $('#stadiumCount').value = state.stadiumCount;
+        if(state.date) $('#globDate').value = state.date;
+        if(state.time) $('#globTime').value = state.time;
+        if(state.matchDay) $('#matchDay').value = state.matchDay;
+        const entries = Object.entries(state.picks || {});
+        for(const [key, pick] of entries){
+          const catSel = document.querySelector(`select[data-row="${key}"]`);
+          const homeSel = document.querySelector(`select[data-home="${key}"]`);
+          const awaySel = document.querySelector(`select[data-away="${key}"]`);
+          const lockChk = document.querySelector(`input[data-lock="${key}"]`);
+          if(!catSel) continue;
+          if(pick.cat && DATA?.categories?.[pick.cat]){
+            catSel.value = pick.cat;
+            const list = (DATA.categories[pick.cat] ?? []).map(x => x.name ?? x.team).filter(Boolean).sort();
+            fillTeamSelect(homeSel, list);
+            fillTeamSelect(awaySel, list);
+          }
+          if(pick.home) homeSel.value = pick.home;
+          if(pick.away) awaySel.value = pick.away;
+          if(pick.locked && lockChk) {
+            lockChk.checked = true;
+            lockChk.closest('tr').classList.add('locked');
+          }
+        }
+      } finally {
+        HYDRATING = false;
+        updateKpis();
+      }
+    }
+
+    function fillCategoryOptions(select){
+      select.innerHTML = '';
+      if(DATA?.categories){
+        select.appendChild(el('option',{value:''}, document.createTextNode('— elegir categoría —')));
+        Object.keys(DATA.categories).sort().forEach(cat=>{
+          select.appendChild(el('option',{value:cat}, document.createTextNode(cat)));
+        });
+        select.disabled = false;
+      } else {
+        select.appendChild(el('option',{value:''}, document.createTextNode('Cargar catálogo...')));
+        select.disabled = true;
+      }
+    }
+    function resetTeamSelect(select){
+      select.innerHTML = '';
+      select.appendChild(el('option',{value:''}, document.createTextNode('— elegir equipo —')));
+      select.disabled = true;
+    }
+    function fillTeamSelect(select, teams){
+      resetTeamSelect(select);
+      teams.forEach(n=>{
+        select.appendChild(el('option',{value:n}, document.createTextNode(n)));
+      });
+      select.disabled = false;
+    }
+
+    function exportCSV(){
+      if(!DATA || !TEAMMAP){ alert('Cargá el catálogo primero.'); return; }
+      const date = $('#globDate').value;
+      const time = $('#globTime').value || '15:00';
+      if(!date){ alert('Elegí una fecha global.'); return; }
+      const playDate = `${date} ${time}:00`;
+      const matchDay = parseInt($('#matchDay').value || '1', 10);
+      const rows = [];
+      const body = $('#fixtureBody');
+      const turnCount = parseInt($('#turnCount').value,10);
+      const stadCount = parseInt($('#stadiumCount').value,10);
+      let idx=0;
+      for(let t=1; t<=turnCount; t++){
+        for(let s=1; s<=stadCount; s++){
+          const tr = body.children[idx++];
+          if(!tr) continue;
+          const cat = tr.querySelector('select[data-row]').value;
+          const home = tr.querySelector('select[data-home]').value;
+          const away = tr.querySelector('select[data-away]').value;
+          const stadium = DATA?.stadiums?.[s-1]?.name ?? `Cancha ${s}`;
+          if(!cat || !home || !away) continue;
+          const H = TEAMMAP[home] ?? {team_group:cat, team_group_order:0, team_is_real:1};
+          const A = TEAMMAP[away] ?? {team_group:cat, team_group_order:0, team_is_real:1};
+          rows.push({
+            play_date: playDate, home_team: home, away_team: away, stadium: stadium, match_type: `Fecha ${matchDay}`,
+            home_team_photo: H.team_photo ?? null, home_team_flag: H.team_flag ?? null, home_team_link: H.team_link ?? null,
+            home_team_group: cat, home_team_group_order: H.team_group_order ?? 0, home_team_is_real: H.team_is_real ?? 1,
+            away_team_photo: A.team_photo ?? null, away_team_flag: A.team_flag ?? null, away_team_link: A.team_link ?? null,
+            away_team_group: cat, away_team_group_order: A.team_group_order ?? 0, away_team_is_real: A.team_is_real ?? 1,
+            stadium_photo: DATA?.stadiums?.[s-1]?.photo ?? null
+          });
+        }
+      }
+      if(!rows.length){ alert('No hay partidos completos.'); return; }
+      const headers = ['play_date','home_team','away_team','stadium','match_type','home_team_photo','home_team_flag','home_team_link','home_team_group','home_team_group_order','home_team_is_real','away_team_photo','away_team_flag','away_team_link','away_team_group','away_team_group_order','away_team_is_real','stadium_photo'];
+      const escape = v=>(/[",\n]/.test(v) ? `"${String(v).replace(/"/g,'""')}"` : String(v||''));
+      const lines = [headers.join(',')];
+      for(const r of rows){ lines.push(headers.map(h=>escape(r[h])).join(',')); }
+      const blob = new Blob([CSV_EXPORT_WITH_BOM ? '\uFEFF' + lines.join('\n') : lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `fixture-fecha(${matchDay})-${date}.csv`;
+      a.click();
+    }
+
+    function updateKpis(){
+      const body = $('#fixtureBody');
+      const rows = [...body.querySelectorAll('tr.row')];
+      const valid = rows.filter(tr=>tr.querySelector('select[data-row]')?.value && tr.querySelector('select[data-home]')?.value && tr.querySelector('select[data-away]')?.value).length;
+      $('#kpiRows').textContent = rows.length;
+      $('#kpiValid').textContent = valid;
+      $('#summaryKpi').textContent = `${valid}/${rows.length} completos`;
+    }
+
+    async function loadDefaultJson(){
+      try{
+        const resp = await fetch('aciadep-datos.json', {cache:'no-store'});
+        DATA = await resp.json();
+        TEAMMAP = toTeamMap(DATA);
+        saveDataCatalog();
+        if(!localStorage.getItem(LS_STATE)){
+            $('#turnCount').value = DATA.turns ?? 5;
+            $('#stadiumCount').value = DATA.stadiums?.length ?? 9;
+            rebuildTable();
+        }
+      }catch(e){
+        const saved = loadDataCatalog();
+        if(saved){ DATA = saved; TEAMMAP = toTeamMap(DATA); rebuildTable(); }
+      }
+    }
+    
+    function loadStateFromFile(file){
+      const reader = new FileReader();
+      reader.onload = e=>{
+        try{
+          const stateObj = JSON.parse(e.target.result);
+          localStorage.setItem(LS_STATE, JSON.stringify(stateObj));
+          boot();
+        }catch(err){ alert('Archivo inválido'); }
+      };
+      reader.readAsText(file);
+    }
+
+    function boot(){
+      const st = loadState();
+      if(st){
+        $('#turnCount').value = st.turnCount ?? 5;
+        $('#stadiumCount').value = st.stadiumCount ?? 9;
+        $('#globDate').value = st.date || fmtDate(nextSaturdayUTC());
+        $('#globTime').value = st.time || '15:00';
+        $('#matchDay').value = st.matchDay || 3;
+      } else {
+        $('#globDate').value = fmtDate(nextSaturdayUTC());
+      }
+      rebuildTable();
+      loadDefaultJson();
+    }
+
+    $('#btnRebuild').addEventListener('click', rebuildTable);
+    $('#btnExport').addEventListener('click', exportCSV);
+    $('#btnClear').addEventListener('click', ()=>{
+      document.querySelectorAll('#fixtureBody select').forEach(s=>s.value='');
+      document.querySelectorAll('.check-lock').forEach(c=>{c.checked=false; c.closest('tr').classList.remove('locked')});
+      saveState(); updateKpis();
+    });
+    $('#btnClearSaved').addEventListener('click', ()=>{ clearState(); location.reload(); });
+    ['globDate','globTime','matchDay','turnCount','stadiumCount'].forEach(id=>{
+      $('#'+id).addEventListener('change', ()=>{ saveState(); if(id==='turnCount'||id==='stadiumCount') rebuildTable(); });
+    });
+    $('#btnLoadState').addEventListener('click', ()=> $('#fileState').click());
+    $('#fileState').addEventListener('change', e=>{ if(e.target.files[0]) loadStateFromFile(e.target.files[0]); });
+
+    boot();
+  </script>
+</body>
+</html>
